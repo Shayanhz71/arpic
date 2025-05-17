@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { Photo, Image, Album, BrushIcon, Camera } from "lucide-react";
+import { ImageIcon, Camera, Album, BrushIcon, Image } from "lucide-react";
 
 const ServiceCard = ({ 
   title, 
@@ -30,7 +30,7 @@ const Services = () => {
     {
       title: "رتوش پرتره",
       description: "اصلاح حرفه‌ای پوست، چهره و جزئیات تصویر در عکس‌های پرتره",
-      icon: Photo
+      icon: ImageIcon
     },
     {
       title: "ادیت عروسی",
