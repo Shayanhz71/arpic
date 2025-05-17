@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Album, Image } from 'lucide-react';
+import { AlbumIcon, ImageIcon } from 'lucide-react';
 
 // Sample product data
 const products = [
@@ -327,9 +327,9 @@ const ShopPage = () => {
                           <CardContent className="p-4">
                             <div className="flex items-center mb-2">
                               {product.category === 'album' ? (
-                                <Album className="h-4 w-4 text-[#78156F] ml-2" />
+                                <AlbumIcon className="h-4 w-4 text-[#78156F] ml-2" />
                               ) : (
-                                <Image className="h-4 w-4 text-[#78156F] ml-2" />
+                                <ImageIcon className="h-4 w-4 text-[#78156F] ml-2" />
                               )}
                               <p className="text-sm text-gray-500">
                                 {product.category === 'album' ? 'آلبوم' : 'قاب'}
@@ -365,7 +365,7 @@ const ShopPage = () => {
                           />
                           <CardContent className="p-4">
                             <div className="flex items-center mb-2">
-                              <Album className="h-4 w-4 text-[#78156F] ml-2" />
+                              <AlbumIcon className="h-4 w-4 text-[#78156F] ml-2" />
                               <p className="text-sm text-gray-500">آلبوم</p>
                             </div>
                             <h3 className="font-bold">{product.name}</h3>
@@ -398,7 +398,7 @@ const ShopPage = () => {
                           />
                           <CardContent className="p-4">
                             <div className="flex items-center mb-2">
-                              <Image className="h-4 w-4 text-[#78156F] ml-2" />
+                              <ImageIcon className="h-4 w-4 text-[#78156F] ml-2" />
                               <p className="text-sm text-gray-500">قاب</p>
                             </div>
                             <h3 className="font-bold">{product.name}</h3>

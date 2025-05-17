@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Menu, X, Search } from "lucide-react";
+import { Menu, X, Search, AlbumIcon, ImageIcon } from "lucide-react";
 import { Link } from 'react-router-dom';
 import { 
   NavigationMenu, 
@@ -91,7 +91,7 @@ const Header = () => {
                             to="/shop/albums"
                             className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-purple-50 to-purple-100 p-6 no-underline outline-none focus:shadow-md"
                           >
-                            <Album className="h-6 w-6 text-[#78156F]" />
+                            <AlbumIcon className="h-6 w-6 text-[#78156F]" />
                             <div className="mb-2 mt-4 text-lg font-medium text-[#78156F]">
                               آلبوم‌ها
                             </div>
@@ -107,7 +107,7 @@ const Header = () => {
                             to="/shop/frames"
                             className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-purple-50 to-purple-100 p-6 no-underline outline-none focus:shadow-md"
                           >
-                            <Image className="h-6 w-6 text-[#78156F]" />
+                            <ImageIcon className="h-6 w-6 text-[#78156F]" />
                             <div className="mb-2 mt-4 text-lg font-medium text-[#78156F]">
                               قاب‌ها
                             </div>

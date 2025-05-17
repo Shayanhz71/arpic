@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { ImageIcon, Camera, Album, BrushIcon, Image } from "lucide-react";
+import { ImageIcon, Camera, AlbumIcon, BrushIcon, Image as ImageIconAlt } from "lucide-react";
 
 const ServiceCard = ({ 
   title, 
@@ -45,12 +45,12 @@ const Services = () => {
     {
       title: "طراحی آلبوم",
       description: "طراحی و چیدمان حرفه‌ای عکس‌ها در قالب آلبوم دیجیتال و چاپی",
-      icon: Album
+      icon: AlbumIcon
     },
     {
       title: "عکاسی صنعتی",
       description: "ویرایش و رتوش تخصصی عکس‌های محصولات و تصاویر صنعتی",
-      icon: Image
+      icon: ImageIconAlt
     }
   ];
 
