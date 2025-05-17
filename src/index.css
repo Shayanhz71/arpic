@@ -14,16 +14,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 221 83% 53%;
+    --primary: 300 73% 27%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 187 47% 55%;
+    --secondary: 300 47% 55%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 187 47% 55%;
+    --accent: 300 47% 55%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -31,7 +31,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 221 83% 53%;
+    --ring: 300 73% 27%;
 
     --radius: 0.5rem;
   }
@@ -56,11 +56,11 @@
 
 @layer components {
   .button-primary {
-    @apply bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-all duration-300 ease-in-out;
+    @apply bg-[#78156F] hover:bg-[#651260] text-white font-bold py-2 px-4 rounded-md transition-all duration-300 ease-in-out;
   }
   
   .button-secondary {
-    @apply bg-transparent hover:bg-blue-600 text-blue-600 font-semibold hover:text-white py-2 px-4 border border-blue-600 hover:border-transparent rounded-md transition-all duration-300 ease-in-out;
+    @apply bg-transparent hover:bg-[#78156F] text-[#78156F] font-semibold hover:text-white py-2 px-4 border border-[#78156F] hover:border-transparent rounded-md transition-all duration-300 ease-in-out;
   }
   
   .section-title {
@@ -69,7 +69,7 @@
   
   .section-title::after {
     content: '';
-    @apply block w-20 h-1 bg-teal-500 mx-auto mt-4;
+    @apply block w-20 h-1 bg-[#78156F] mx-auto mt-4;
   }
   
   .card {
