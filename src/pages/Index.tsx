@@ -31,7 +31,7 @@ const Index = () => {
               </p>
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
                 <Link to="/edit-request">
-                  <Button className="bg-[#78156F] hover:bg-[#651260] text-lg py-6 px-8 shadow-lg">
+                  <Button className="bg-[#4CAF50] hover:bg-[#388E3C] text-lg py-6 px-8 shadow-lg">
                     درخواست ادیت
                   </Button>
                 </Link>

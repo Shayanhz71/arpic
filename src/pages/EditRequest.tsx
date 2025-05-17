@@ -89,16 +89,16 @@ const EditRequestPage = () => {
             <Card className="border-none shadow-xl overflow-hidden">
               <CardContent className="p-0">
                 <Tabs defaultValue="upload" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2 rounded-none rounded-t-lg bg-[#78156F]">
+                  <TabsList className="grid w-full grid-cols-2 rounded-none rounded-t-lg bg-[#4CAF50]">
                     <TabsTrigger 
                       value="upload" 
-                      className="data-[state=active]:bg-white data-[state=active]:text-[#78156F] data-[state=active]:shadow-none text-white"
+                      className="data-[state=active]:bg-white data-[state=active]:text-[#4CAF50] data-[state=active]:shadow-none text-white"
                     >
                       آپلود عکس
                     </TabsTrigger>
                     <TabsTrigger 
                       value="link" 
-                      className="data-[state=active]:bg-white data-[state=active]:text-[#78156F] data-[state=active]:shadow-none text-white"
+                      className="data-[state=active]:bg-white data-[state=active]:text-[#4CAF50] data-[state=active]:shadow-none text-white"
                     >
                       ارسال لینک
                     </TabsTrigger>
@@ -166,8 +166,8 @@ const EditRequestPage = () => {
                           />
                           <Label htmlFor="file-upload" className="cursor-pointer">
                             <div className="flex flex-col items-center space-y-4">
-                              <div className="p-4 bg-purple-100 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#78156F]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <div className="p-4 bg-green-100 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#4CAF50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                 </svg>
                               </div>
@@ -176,7 +176,7 @@ const EditRequestPage = () => {
                                 <p className="text-sm text-gray-500">یا برای انتخاب فایل کلیک کنید</p>
                                 <p className="text-xs text-gray-500">فرمت‌های مجاز: JPG، PNG و TIFF (حداکثر ۲۰ مگابایت)</p>
                               </div>
-                              <Button type="button" variant="outline" className="border-[#78156F] text-[#78156F] hover:bg-[#78156F] hover:text-white">
+                              <Button type="button" variant="outline" className="border-[#4CAF50] text-[#4CAF50] hover:bg-[#4CAF50] hover:text-white">
                                 انتخاب فایل
                               </Button>
                             </div>
@@ -191,7 +191,7 @@ const EditRequestPage = () => {
                               {files.map((file, index) => (
                                 <div key={index} className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm border">
                                   <div className="flex items-center space-x-3 space-x-reverse">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#78156F]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#4CAF50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
                                     <span className="text-sm truncate max-w-[200px]">{file.name}</span>
@@ -222,7 +222,7 @@ const EditRequestPage = () => {
                           </div>
                           <div className="w-full bg-gray-200 rounded-full h-2.5">
                             <div 
-                              className="bg-[#78156F] h-2.5 rounded-full transition-all duration-300"
+                              className="bg-[#4CAF50] h-2.5 rounded-full transition-all duration-300"
                               style={{ width: `${uploadProgress}%` }}
                             ></div>
                           </div>
@@ -240,7 +240,7 @@ const EditRequestPage = () => {
                       
                       <Button 
                         type="submit" 
-                        className="w-full bg-[#78156F] hover:bg-[#651260] py-6 text-lg"
+                        className="w-full bg-[#4CAF50] hover:bg-[#388E3C] py-6 text-lg"
                         disabled={isUploading}
                       >
                         ثبت سفارش
@@ -310,7 +310,7 @@ const EditRequestPage = () => {
                         <Label htmlFor="urgent-mode-link">سفارش فوری (با هزینه بیشتر)</Label>
                       </div>
                       
-                      <Button type="submit" className="w-full bg-[#78156F] hover:bg-[#651260] py-6 text-lg">
+                      <Button type="submit" className="w-full bg-[#4CAF50] hover:bg-[#388E3C] py-6 text-lg">
                         ثبت سفارش
                       </Button>
                     </form>
@@ -325,7 +325,7 @@ const EditRequestPage = () => {
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="bg-[#78156F] text-white">
+                    <tr className="bg-[#4CAF50] text-white">
                       <th className="py-3 px-4 text-right">نوع سرویس</th>
                       <th className="py-3 px-4 text-right">قیمت پایه (تومان)</th>
                       <th className="py-3 px-4 text-right">قیمت فوری (تومان)</th>

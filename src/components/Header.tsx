@@ -1,7 +1,21 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Menu, X, Search, AlbumIcon, ImageIcon, Camera, BrushIcon, Image as ImageIconAlt } from "lucide-react";
+import { 
+  Menu, 
+  X, 
+  Search, 
+  AlbumIcon, 
+  ImageIcon, 
+  Camera, 
+  BrushIcon, 
+  Image as ImageIconAlt,
+  ShoppingBag,
+  Handshake,
+  HelpCircle,
+  Phone,
+  Home
+} from "lucide-react";
 import { Link } from 'react-router-dom';
 import { 
   NavigationMenu, 
@@ -42,9 +56,9 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 rounded-[27px] shadow-[10px_15px_11px_-2px_rgba(0,0,0,0.1)] ${
         isScrolled 
-          ? "bg-white shadow-md py-2" 
+          ? "bg-white py-2" 
           : "bg-gradient-to-r from-[#78156F]/90 via-purple-800/80 to-[#78156F]/90 backdrop-blur-sm py-4"
       }`}
     >
@@ -53,7 +67,11 @@ const Header = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center gap-2">
-              <img src="/lovable-uploads/5ddbc0d1-ddfc-4ca6-9eb2-73c292437292.png" alt="Arpic Logo" className="h-10 w-auto" />
+              <img 
+                src="/lovable-uploads/5ddbc0d1-ddfc-4ca6-9eb2-73c292437292.png" 
+                alt="Arpic Logo" 
+                className="h-10 w-auto rounded-[13px]" 
+              />
               <span className={`text-2xl font-bold ${isScrolled ? 'text-[#78156F]' : 'text-white'}`}>
                 Arpic
               </span>
@@ -238,7 +256,7 @@ const Header = () => {
 
           {/* CTA Button */}
           <Link to="/edit-request">
-            <Button className="bg-[#78156F] hover:bg-[#651260] shadow-md">درخواست ادیت</Button>
+            <Button className="bg-[#4CAF50] hover:bg-[#388E3C] shadow-md">درخواست ادیت</Button>
           </Link>
 
           {/* Mobile menu button */}
@@ -275,19 +293,21 @@ const Header = () => {
             <div className="flex flex-col space-y-4">
               <Link
                 to="/"
-                className="text-white hover:text-purple-200 font-medium block py-2"
+                className="text-white hover:text-purple-200 font-medium block py-2 flex items-center gap-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                صفحه اصلی
+                <Home className="h-5 w-5" />
+                <span>صفحه اصلی</span>
               </Link>
               <div>
                 <div className="flex items-center justify-between py-2">
                   <Link
                     to="/services"
-                    className="text-white hover:text-purple-200 font-medium"
+                    className="text-white hover:text-purple-200 font-medium flex items-center gap-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    خدمات
+                    <Camera className="h-5 w-5" />
+                    <span>خدمات</span>
                   </Link>
                 </div>
                 <div className="pr-4 space-y-1 mt-1 border-r border-white/20">
@@ -329,10 +349,11 @@ const Header = () => {
                 <div className="flex items-center justify-between py-2">
                   <Link
                     to="/shop"
-                    className="text-white hover:text-purple-200 font-medium"
+                    className="text-white hover:text-purple-200 font-medium flex items-center gap-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    فروشگاه
+                    <ShoppingBag className="h-5 w-5" />
+                    <span>فروشگاه</span>
                   </Link>
                 </div>
                 <div className="pr-4 space-y-1 mt-1 border-r border-white/20">
@@ -356,24 +377,27 @@ const Header = () => {
               </div>
               <Link
                 to="/cooperation"
-                className="text-white hover:text-purple-200 font-medium block py-2"
+                className="text-white hover:text-purple-200 font-medium block py-2 flex items-center gap-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                همکاری با ما
+                <Handshake className="h-5 w-5" />
+                <span>همکاری با ما</span>
               </Link>
               <Link
                 to="/about"
-                className="text-white hover:text-purple-200 font-medium block py-2"
+                className="text-white hover:text-purple-200 font-medium block py-2 flex items-center gap-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                درباره ما
+                <HelpCircle className="h-5 w-5" />
+                <span>درباره ما</span>
               </Link>
               <Link
                 to="/contact"
-                className="text-white hover:text-purple-200 font-medium block py-2"
+                className="text-white hover:text-purple-200 font-medium block py-2 flex items-center gap-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                تماس با ما
+                <Phone className="h-5 w-5" />
+                <span>تماس با ما</span>
               </Link>
             </div>
           </div>

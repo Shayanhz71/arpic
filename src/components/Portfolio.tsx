@@ -2,6 +2,13 @@
 import { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import BeforeAfterSlider from './BeforeAfterSlider';
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext
+} from "@/components/ui/carousel";
 
 type Category = 'all' | 'portrait' | 'wedding' | 'children' | 'commercial';
 
@@ -52,21 +59,24 @@ const Portfolio = () => {
     : portfolioItems.filter(item => item.category.includes(activeTab));
 
   return (
-    <section id="portfolio" className="py-16">
+    <section id="portfolio" className="py-16 bg-gradient-to-b from-white to-purple-50">
       <div className="container mx-auto px-4">
-        <h2 className="section-title">نمونه کارها</h2>
-        <p className="text-center text-gray-600 mb-10 max-w-2xl mx-auto">
-          بخشی از تجربیات و نمونه کارهای اخیر ما را مشاهده کنید.
-          با نگه داشتن و حرکت روی تصاویر، تفاوت قبل و بعد از ویرایش را ببینید.
-        </p>
+        <div className="text-center mb-10">
+          <span className="inline-block py-1 px-3 rounded-full text-sm font-medium bg-purple-100 text-[#78156F] mb-3">نمونه کارهای آرپیک</span>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">نمونه کارهای ما</h2>
+          <p className="text-center text-gray-600 mb-10 max-w-2xl mx-auto">
+            بخشی از تجربیات و نمونه کارهای اخیر ما را مشاهده کنید.
+            با نگه داشتن و حرکت روی تصاویر، تفاوت قبل و بعد از ویرایش را ببینید.
+          </p>
+        </div>
         
         <Tabs 
           defaultValue="all" 
           className="w-full mb-12"
           onValueChange={(value) => setActiveTab(value as Category)}
         >
-          <div className="flex justify-center">
-            <TabsList className="mb-8">
+          <div className="flex justify-center mb-8">
+            <TabsList>
               <TabsTrigger value="all">همه</TabsTrigger>
               <TabsTrigger value="portrait">پرتره</TabsTrigger>
               <TabsTrigger value="wedding">عروسی</TabsTrigger>
@@ -75,35 +85,59 @@ const Portfolio = () => {
             </TabsList>
           </div>
 
-          <TabsContent value="all" className="mt-0">
-            <div className="grid grid-cols-1 gap-10">
-              {filteredItems.map((item) => (
-                <div key={item.id} className="mb-12">
-                  <BeforeAfterSlider
-                    beforeImage={item.beforeImage}
-                    afterImage={item.afterImage}
-                    heading={item.title}
-                  />
+          <div className="p-6 bg-white rounded-xl shadow-md">
+            <TabsContent value="all" className="mt-0">
+              <Carousel 
+                opts={{ align: "start", loop: true }}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-2 md:-ml-4">
+                  {filteredItems.map((item) => (
+                    <CarouselItem key={item.id} className="px-2 md:px-4 basis-full md:basis-1/2 lg:basis-1/3">
+                      <div className="p-1">
+                        <BeforeAfterSlider
+                          beforeImage={item.beforeImage}
+                          afterImage={item.afterImage}
+                          heading={item.title}
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <div className="flex justify-center mt-8 gap-4">
+                  <CarouselPrevious className="relative static transform-none" />
+                  <CarouselNext className="relative static transform-none" />
                 </div>
-              ))}
-            </div>
-          </TabsContent>
-
-          {['portrait', 'wedding', 'children', 'commercial'].map((category) => (
-            <TabsContent key={category} value={category} className="mt-0">
-              <div className="grid grid-cols-1 gap-10">
-                {filteredItems.map((item) => (
-                  <div key={item.id} className="mb-12">
-                    <BeforeAfterSlider
-                      beforeImage={item.beforeImage}
-                      afterImage={item.afterImage}
-                      heading={item.title}
-                    />
-                  </div>
-                ))}
-              </div>
+              </Carousel>
             </TabsContent>
-          ))}
+
+            {['portrait', 'wedding', 'children', 'commercial'].map((category) => (
+              <TabsContent key={category} value={category} className="mt-0">
+                <Carousel 
+                  opts={{ align: "start", loop: true }}
+                  className="w-full"
+                >
+                  <CarouselContent className="-ml-2 md:-ml-4">
+                    {filteredItems.map((item) => (
+                      <CarouselItem key={item.id} className="px-2 md:px-4 basis-full md:basis-1/2 lg:basis-1/3">
+                        <div className="p-1">
+                          <BeforeAfterSlider
+                            beforeImage={item.beforeImage}
+                            afterImage={item.afterImage}
+                            heading={item.title}
+                          />
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <div className="flex justify-center mt-8 gap-4">
+                    <CarouselPrevious className="relative static transform-none" />
+                    <CarouselNext className="relative static transform-none" />
+                  </div>
+                </Carousel>
+              </TabsContent>
+            ))}
+          </div>
         </Tabs>
       </div>
     </section>
