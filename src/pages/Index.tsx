@@ -18,7 +18,7 @@ const Index = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-28 pb-16 bg-gradient-to-b from-purple-50 to-white">
+      <section className="pt-28 pb-16 bg-gradient-to-b from-purple-200 via-purple-100 to-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="lg:w-1/2 text-center lg:text-right">
@@ -27,11 +27,11 @@ const Index = () => {
               </h1>
               <p className="text-lg text-gray-600 mb-8">
                 در عصر دیجیتال، کیفیت عکس‌های شما نقش مهمی در موفقیت کسب و کارتان دارد. 
-                ما به شما کمک می‌کنیم تا با ارائه خدمات ویرایش حرفه‌ای، تصاویری خیره‌کننده به مشتریان خود تحویل دهید.
+                ما در <span className="text-[#78156F] font-semibold">آرپیک</span> به شما کمک می‌کنیم تا با ارائه خدمات ویرایش حرفه‌ای، تصاویری خیره‌کننده به مشتریان خود تحویل دهید.
               </p>
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
                 <Link to="/edit-request">
-                  <Button className="bg-[#78156F] hover:bg-[#651260] text-lg py-6 px-8">
+                  <Button className="bg-[#78156F] hover:bg-[#651260] text-lg py-6 px-8 shadow-lg">
                     درخواست ادیت
                   </Button>
                 </Link>

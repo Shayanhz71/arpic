@@ -45,18 +45,20 @@
   html {
     font-family: 'Vazirmatn', sans-serif;
     direction: rtl;
+    scroll-behavior: smooth;
   }
 
   body {
     @apply bg-background text-foreground font-vazir;
     direction: rtl;
     text-align: right;
+    overflow-x: hidden;
   }
 }
 
 @layer components {
   .button-primary {
-    @apply bg-[#78156F] hover:bg-[#651260] text-white font-bold py-2 px-4 rounded-md transition-all duration-300 ease-in-out;
+    @apply bg-[#78156F] hover:bg-[#651260] text-white font-bold py-2 px-4 rounded-md transition-all duration-300 ease-in-out shadow-md hover:shadow-lg;
   }
   
   .button-secondary {
@@ -77,6 +79,14 @@
   }
   
   .card:hover {
-    @apply transform -translate-y-1;
+    @apply transform -translate-y-1 shadow-xl;
+  }
+
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 shadow-lg;
+  }
+
+  .gradient-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-[#78156F] to-purple-600;
   }
 }
