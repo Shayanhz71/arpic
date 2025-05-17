@@ -10,6 +10,7 @@ import Testimonials from '@/components/Testimonials';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
   return (
@@ -17,24 +18,28 @@ const Index = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-28 pb-16 bg-gradient-to-b from-blue-50 to-white">
+      <section className="pt-28 pb-16 bg-gradient-to-b from-purple-50 to-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="lg:w-1/2 text-center lg:text-right">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                خدمات حرفه‌ای <span className="text-blue-600">ویرایش عکس</span> برای عکاسان و آتلیه‌ها
+                خدمات حرفه‌ای <span className="text-[#78156F]">ویرایش عکس</span> برای عکاسان و آتلیه‌ها
               </h1>
               <p className="text-lg text-gray-600 mb-8">
                 در عصر دیجیتال، کیفیت عکس‌های شما نقش مهمی در موفقیت کسب و کارتان دارد. 
                 ما به شما کمک می‌کنیم تا با ارائه خدمات ویرایش حرفه‌ای، تصاویری خیره‌کننده به مشتریان خود تحویل دهید.
               </p>
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
-                <Button className="bg-blue-600 hover:bg-blue-700 text-lg py-6 px-8">
-                  درخواست ادیت
-                </Button>
-                <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white text-lg py-6 px-8">
-                  مشاهده نمونه‌کارها
-                </Button>
+                <Link to="/edit-request">
+                  <Button className="bg-[#78156F] hover:bg-[#651260] text-lg py-6 px-8">
+                    درخواست ادیت
+                  </Button>
+                </Link>
+                <Link to="/portfolio">
+                  <Button variant="outline" className="border-[#78156F] text-[#78156F] hover:bg-[#78156F] hover:text-white text-lg py-6 px-8">
+                    مشاهده نمونه‌کارها
+                  </Button>
+                </Link>
               </div>
             </div>
             

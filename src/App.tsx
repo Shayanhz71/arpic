@@ -10,6 +10,8 @@ import ShopPage from "./pages/Shop";
 import AboutPage from "./pages/About";
 import ContactPage from "./pages/Contact";
 import CooperationPage from "./pages/Cooperation";
+import PortfolioPage from "./pages/Portfolio";
+import EditRequestPage from "./pages/EditRequest";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +25,13 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/services" element={<ServicesPage />} />
+          <Route path="/services/portrait" element={<ServicesPage />} />
+          <Route path="/services/wedding" element={<ServicesPage />} />
+          <Route path="/services/skin" element={<ServicesPage />} />
+          <Route path="/services/album" element={<ServicesPage />} />
+          <Route path="/services/commercial" element={<ServicesPage />} />
+          <Route path="/portfolio" element={<PortfolioPage />} />
+          <Route path="/edit-request" element={<EditRequestPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/shop/albums" element={<ShopPage />} />
           <Route path="/shop/frames" element={<ShopPage />} />

@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface FAQItem {
   question: string;
@@ -45,37 +46,47 @@ const FAQ = () => {
   ];
 
   return (
-    <section id="faq" className="py-16 bg-gray-50">
+    <section id="faq" className="py-20 bg-gradient-to-b from-white to-purple-50">
       <div className="container mx-auto px-4">
-        <h2 className="section-title">سوالات متداول</h2>
-        <p className="text-center text-gray-600 mb-10 max-w-2xl mx-auto">
-          پاسخ سوالات رایج شما درباره خدمات ویرایش عکس ما را در اینجا بیابید.
-        </p>
+        <div className="text-center mb-16">
+          <span className="inline-block py-1 px-3 rounded-full text-sm font-medium bg-purple-100 text-[#78156F] mb-3">سوالات متداول</span>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">پاسخ به سوالات رایج شما</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            پاسخ سوالات رایج شما درباره خدمات ویرایش عکس ما را در اینجا بیابید.
+          </p>
+        </div>
         
         <div className="max-w-3xl mx-auto">
-          <Accordion type="single" collapsible className="space-y-4">
-            {faqItems.map((item, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="bg-white rounded-lg shadow-sm border">
-                <AccordionTrigger className="px-4 py-3 hover:bg-gray-50 rounded-t-lg text-right">
-                  {item.question}
-                </AccordionTrigger>
-                <AccordionContent className="px-4 pb-4 text-gray-600 leading-relaxed">
-                  {item.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          <Card className="shadow-lg border-none overflow-hidden">
+            <CardContent className="p-6">
+              <Accordion type="single" collapsible className="space-y-4">
+                {faqItems.map((item, index) => (
+                  <AccordionItem key={index} value={`item-${index}`} className="bg-white rounded-lg shadow-sm border border-gray-100">
+                    <AccordionTrigger className="px-5 py-4 hover:bg-gray-50 rounded-t-lg text-right font-semibold text-gray-800">
+                      {item.question}
+                    </AccordionTrigger>
+                    <AccordionContent className="px-5 pb-4 text-gray-600 leading-relaxed">
+                      {item.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </CardContent>
+          </Card>
           
           <div className="mt-10 text-center">
-            <p className="text-gray-600 mb-4">
-              سوالات بیشتری دارید؟
-            </p>
-            <a 
-              href="/contact" 
-              className="text-blue-600 hover:text-blue-700 font-medium"
-            >
-              با ما تماس بگیرید
-            </a>
+            <div className="max-w-xl mx-auto bg-[#78156F] rounded-lg p-6 text-white shadow-lg">
+              <h3 className="text-xl font-bold mb-2">سوالات بیشتری دارید؟</h3>
+              <p className="mb-4">
+                تیم پشتیبانی ما آماده پاسخگویی به تمامی سوالات شما است.
+              </p>
+              <a 
+                href="/contact" 
+                className="inline-flex items-center justify-center rounded-md bg-white py-2 px-6 text-[#78156F] font-medium hover:bg-gray-100 transition-colors"
+              >
+                تماس با ما
+              </a>
+            </div>
           </div>
         </div>
       </div>
