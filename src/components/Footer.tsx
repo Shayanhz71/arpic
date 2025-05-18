@@ -1,19 +1,16 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 const Footer = () => {
-  return (
-    <footer className="bg-gray-900 text-white pt-16 pb-8">
+  return <footer className="bg-gray-900 text-white pt-16 pb-8">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
           {/* Logo and About */}
           <div className="lg:col-span-2">
             <Link to="/" className="text-2xl font-bold text-white mb-6 flex items-center">
               <div className="w-10 h-10 rounded-full bg-[#78156F] flex items-center justify-center mr-2">
-                <span className="text-white font-bold">ES</span>
+                <span className="text-white font-bold">AP</span>
               </div>
               استودیو ادیت عکس
             </Link>
@@ -97,30 +94,26 @@ const Footer = () => {
                 <svg className="h-6 w-6 text-[#78156F] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                 </svg>
-                <span className="text-gray-300">۰۲۱-۸۸۸۸۸۸۸۸</span>
+                <span className="text-gray-300">09052405866</span>
               </li>
               <li className="flex items-start space-x-3 space-x-reverse">
                 <svg className="h-6 w-6 text-[#78156F] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
-                <span className="text-gray-300">info@example.com</span>
+                <span className="text-gray-300">ََarpic@gmail.com</span>
               </li>
               <li className="flex items-start space-x-3 space-x-reverse">
                 <svg className="h-6 w-6 text-[#78156F] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                 </svg>
-                <span className="text-gray-300">تهران، خیابان ولیعصر، پلاک ۱۲۳</span>
+                <span className="text-gray-300">آمل، کوچه بانک خون، پلاک 12</span>
               </li>
             </ul>
             
             <h3 className="text-lg font-bold mb-4">عضویت در خبرنامه</h3>
             <div className="flex">
-              <Input
-                type="email"
-                placeholder="ایمیل خود را وارد کنید"
-                className="rounded-l-none rounded-r-md border-gray-700 bg-gray-800 text-white"
-              />
+              <Input type="email" placeholder="ایمیل خود را وارد کنید" className="rounded-l-none rounded-r-md border-gray-700 bg-gray-800 text-white" />
               <Button type="button" className="rounded-r-none rounded-l-md bg-[#78156F] hover:bg-[#651260]">
                 عضویت
               </Button>
@@ -130,18 +123,14 @@ const Footer = () => {
         
         <div className="border-t border-gray-800 mt-10 pt-10">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © ۱۴۰۴ استودیو ادیت عکس. تمامی حقوق محفوظ است.
-            </p>
+            <p className="text-gray-400 text-sm mb-4 md:mb-0">© ۱۴۰۴ استودیو آرپیک. تمامی حقوق محفوظ است.</p>
             <div className="flex space-x-4 space-x-reverse">
-              <img src="https://trustseal.enamad.ir/logo.aspx?id=123456" alt="نماد اعتماد الکترونیکی" className="h-16 w-16 bg-white p-1 rounded" />
-              <img src="https://www.zarinpal.com/assets/images/trustmarks/zarinpal.png" alt="پرداخت امن زرین پال" className="h-16 w-16 bg-white p-1 rounded" />
+              <img alt="نماد اعتماد الکترونیکی" className="h-16 w-16 bg-white p-1 rounded" src="/lovable-uploads/dcad7324-6bb3-4bb4-b3a8-c4f037b2f8cb.png" />
+              <img alt="پرداخت امن زرین پال" className="h-16 w-16 bg-white p-1 rounded" src="/lovable-uploads/9429f81d-f40b-4aeb-91c5-5a9a651b6756.png" />
             </div>
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
