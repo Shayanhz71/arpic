@@ -1,32 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { 
-  Menu, 
-  X, 
-  Search, 
-  AlbumIcon, 
-  ImageIcon, 
-  Camera, 
-  BrushIcon, 
-  Image as ImageIconAlt, 
-  ShoppingBag, 
-  Handshake, 
-  HelpCircle, 
-  Phone, 
-  Home,
-  LayoutGrid
-} from "lucide-react";
+import { Menu, X, Search, AlbumIcon, ImageIcon, Camera, BrushIcon, Image as ImageIconAlt, ShoppingBag, Handshake, HelpCircle, Phone, Home, LayoutGrid } from "lucide-react";
 import { Link } from 'react-router-dom';
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -40,13 +22,11 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Searching for:", searchQuery);
     // Implement search functionality here
   };
-  
   return <header className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 rounded-[27px] shadow-[10px_15px_11px_-2px_rgba(0,0,0,0.1)] ${isScrolled ? "bg-white py-2" : "bg-gradient-to-r from-[#78156F]/90 via-purple-800/80 to-[#78156F]/90 backdrop-blur-sm py-4"}`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
@@ -221,7 +201,7 @@ const Header = () => {
           {/* CTA Button */}
           <div className="md:block hidden">
             <Link to="/edit-request">
-              <Button className="shadow-md bg-green-500 hover:bg-green-600">درخواست ادیت</Button>
+              <Button className="shadow-md bg-rose-950 hover:bg-rose-800">درخواست ادیت</Button>
             </Link>
           </div>
 
@@ -318,5 +298,4 @@ const Header = () => {
       </div>
     </header>;
 };
-
 export default Header;
