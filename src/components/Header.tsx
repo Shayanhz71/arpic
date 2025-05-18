@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Menu, X, Search, AlbumIcon, ImageIcon, Camera, BrushIcon, Image as ImageIconAlt, ShoppingBag, Handshake, HelpCircle, Phone, Home, LayoutGrid } from "lucide-react";
+import { Menu, X, Search, AlbumIcon, ImageIcon, Camera, BrushIcon, Image as ImageIconAlt, ShoppingBag, Handshake, HelpCircle, Phone, Home, LayoutGrid, Scissors } from "lucide-react";
 import { Link } from 'react-router-dom';
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
@@ -201,7 +202,7 @@ const Header = () => {
           {/* CTA Button */}
           <div className="md:block hidden">
             <Link to="/edit-request">
-              <Button className="shadow-md bg-rose-950 hover:bg-rose-800">درخواست ادیت</Button>
+              <Button className="shadow-md bg-[#78156F] hover:bg-[#651260]">درخواست ادیت</Button>
             </Link>
           </div>
 
@@ -210,7 +211,7 @@ const Header = () => {
             {/* Edit Request Button - Centered on Mobile */}
             <div className="flex-1"></div>
             <Link to="/edit-request" className="flex-1 text-center">
-              <Button className="shadow-md bg-green-500 hover:bg-green-600">درخواست ادیت</Button>
+              <Button className="shadow-md bg-[#78156F] hover:bg-[#651260]">درخواست ادیت</Button>
             </Link>
             <div className="flex-1 flex justify-end">
               <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className={isScrolled ? "text-gray-500 hover:text-gray-700" : "text-white hover:text-purple-200"} aria-label={isMobileMenuOpen ? "بستن منو" : "باز کردن منو"}>
@@ -242,7 +243,7 @@ const Header = () => {
                 </div>
                 <div className="pr-4 space-y-1 mt-1 border-r border-white/20">
                   <Link to="/services/portrait" className="text-white/80 hover:text-white flex items-center space-x-2 space-x-reverse py-2" onClick={() => setIsMobileMenuOpen(false)}>
-                    <ImageIcon className="h-4 w-4" />
+                    <Scissors className="h-4 w-4" />
                     <span>رتوش پرتره</span>
                   </Link>
                   <Link to="/portfolio" className="text-white/80 hover:text-white flex items-center space-x-2 space-x-reverse py-2" onClick={() => setIsMobileMenuOpen(false)}>
@@ -276,7 +277,7 @@ const Header = () => {
                     <span>آلبوم‌ها</span>
                   </Link>
                   <Link to="/shop/frames" className="text-white/80 hover:text-white flex items-center space-x-2 space-x-reverse py-2" onClick={() => setIsMobileMenuOpen(false)}>
-                    <ImageIcon className="h-4 w-4" />
+                    <LayoutGrid className="h-4 w-4" />
                     <span>قاب‌ها</span>
                   </Link>
                 </div>
