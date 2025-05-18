@@ -28,7 +28,7 @@ const Index = () => {
               </p>
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
                 <Link to="/edit-request">
-                  <Button className="text-lg py-6 px-8 shadow-lg bg-rose-950 hover:bg-rose-800">
+                  <Button className="text-lg py-6 px-8 shadow-lg bg-[#78156f]">
                     درخواست ادیت
                   </Button>
                 </Link>
