@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { ImageIcon, Camera, AlbumIcon, BrushIcon, Image as ImageIconAlt } from "lucide-react";
+import { ImageIcon, Camera, AlbumIcon, BrushIcon, Image as ImageIconAlt, LayoutGrid } from "lucide-react";
 import { Link } from 'react-router-dom';
 
 const ServiceCard = ({ 
@@ -34,7 +34,7 @@ const Services = () => {
   const services = [
     {
       title: "رتوش پرتره",
-      description: "اصلاح حرفه‌ای پوست، چهره و جزئیات تصویر در عکس‌های پرتره",
+      description: "اصلاح حرفه‌ای پوست، چهره و جزئیات تصویر با حفظ حالت طبیعی و رفع لک و تیرگی",
       icon: ImageIcon,
       link: "/services/portrait"
     },
@@ -43,12 +43,6 @@ const Services = () => {
       description: "ویرایش تخصصی عکس‌های عروسی با حفظ جلوه‌های طبیعی و زیبایی‌های لحظه",
       icon: Camera,
       link: "/services/wedding"
-    },
-    {
-      title: "رتوش پوست",
-      description: "اصلاح و یکدست کردن بافت پوست، رفع لک و تیرگی با حفظ حالت طبیعی",
-      icon: BrushIcon,
-      link: "/services/skin"
     },
     {
       title: "طراحی آلبوم",
@@ -61,6 +55,12 @@ const Services = () => {
       description: "ویرایش و رتوش تخصصی عکس‌های محصولات و تصاویر صنعتی",
       icon: ImageIconAlt,
       link: "/services/commercial"
+    },
+    {
+      title: "طراحی قاب دیواری",
+      description: "طراحی و چیدمان حرفه‌ای قاب‌های عکس بر روی دیوار منزل یا محل کار شما",
+      icon: LayoutGrid,
+      link: "/services/wall-frame"
     }
   ];
 

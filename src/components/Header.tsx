@@ -1,14 +1,32 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Menu, X, Search, AlbumIcon, ImageIcon, Camera, BrushIcon, Image as ImageIconAlt, ShoppingBag, Handshake, HelpCircle, Phone, Home } from "lucide-react";
+import { 
+  Menu, 
+  X, 
+  Search, 
+  AlbumIcon, 
+  ImageIcon, 
+  Camera, 
+  BrushIcon, 
+  Image as ImageIconAlt, 
+  ShoppingBag, 
+  Handshake, 
+  HelpCircle, 
+  Phone, 
+  Home,
+  LayoutGrid
+} from "lucide-react";
 import { Link } from 'react-router-dom';
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -22,11 +40,13 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Searching for:", searchQuery);
     // Implement search functionality here
   };
+  
   return <header className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 rounded-[27px] shadow-[10px_15px_11px_-2px_rgba(0,0,0,0.1)] ${isScrolled ? "bg-white py-2" : "bg-gradient-to-r from-[#78156F]/90 via-purple-800/80 to-[#78156F]/90 backdrop-blur-sm py-4"}`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
@@ -128,6 +148,19 @@ const Header = () => {
                           </Link>
                         </NavigationMenuLink>
                       </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link to="/services/wall-frame" className="block select-none space-y-1 rounded-md p-3 no-underline outline-none transition-colors hover:bg-purple-100 hover:text-[#78156F] focus:bg-purple-100 focus:text-[#78156F]">
+                            <div className="flex items-center space-x-2 space-x-reverse">
+                              <LayoutGrid className="h-4 w-4" />
+                              <span className="text-sm font-medium">طراحی قاب دیواری</span>
+                            </div>
+                            <p className="line-clamp-2 text-xs text-gray-500">
+                              طراحی و چیدمان حرفه‌ای قاب‌های عکس بر روی دیوار منزل یا محل کار شما
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
@@ -186,15 +219,24 @@ const Header = () => {
           </nav>
 
           {/* CTA Button */}
-          <Link to="/edit-request">
-            <Button className="shadow-md bg-rose-950 hover:bg-rose-800">درخواست ادیت</Button>
-          </Link>
+          <div className="md:block hidden">
+            <Link to="/edit-request">
+              <Button className="shadow-md bg-green-500 hover:bg-green-600">درخواست ادیت</Button>
+            </Link>
+          </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className={isScrolled ? "text-gray-500 hover:text-gray-700" : "text-white hover:text-purple-200"} aria-label={isMobileMenuOpen ? "بستن منو" : "باز کردن منو"}>
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
+          {/* Mobile Navigation Controls */}
+          <div className="md:hidden flex items-center justify-between w-full">
+            {/* Edit Request Button - Centered on Mobile */}
+            <div className="flex-1"></div>
+            <Link to="/edit-request" className="flex-1 text-center">
+              <Button className="shadow-md bg-green-500 hover:bg-green-600">درخواست ادیت</Button>
+            </Link>
+            <div className="flex-1 flex justify-end">
+              <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className={isScrolled ? "text-gray-500 hover:text-gray-700" : "text-white hover:text-purple-200"} aria-label={isMobileMenuOpen ? "بستن منو" : "باز کردن منو"}>
+                {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -235,6 +277,10 @@ const Header = () => {
                     <Camera className="h-4 w-4" />
                     <span>ادیت عروسی</span>
                   </Link>
+                  <Link to="/services/wall-frame" className="text-white/80 hover:text-white flex items-center space-x-2 space-x-reverse py-2" onClick={() => setIsMobileMenuOpen(false)}>
+                    <LayoutGrid className="h-4 w-4" />
+                    <span>طراحی قاب دیواری</span>
+                  </Link>
                 </div>
               </div>
               <div>
@@ -272,4 +318,5 @@ const Header = () => {
       </div>
     </header>;
 };
+
 export default Header;

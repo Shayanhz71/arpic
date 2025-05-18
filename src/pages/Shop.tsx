@@ -5,7 +5,8 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AlbumIcon, ImageIcon } from 'lucide-react';
+import { AlbumIcon, ImageIcon, Filter, Save, X } from 'lucide-react';
+import { toast } from "@/components/ui/use-toast";
 
 // Sample product data
 const products = [
@@ -92,7 +93,20 @@ const ShopPage = () => {
     type?: string;
     occasion?: string;
     color?: string;
+    minPrice?: number;
+    maxPrice?: number;
   }>({ category: 'all' });
+  
+  const [tempFilters, setTempFilters] = useState<{
+    category: string;
+    type?: string;
+    occasion?: string;
+    color?: string;
+    minPrice?: number;
+    maxPrice?: number;
+  }>({ category: 'all' });
+  
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const filteredProducts = products.filter(product => {
     if (activeTab === 'all') return true;
@@ -112,11 +126,34 @@ const ShopPage = () => {
     // Frame color filters
     if (activeFilters.color && product.color !== activeFilters.color) return false;
     
+    // Price range filters
+    if (activeFilters.minPrice && product.price < activeFilters.minPrice) return false;
+    if (activeFilters.maxPrice && product.price > activeFilters.maxPrice) return false;
+    
     return true;
   });
 
-  const handleFilterChange = (filterType: string, value: string) => {
-    setActiveFilters(prev => ({ ...prev, [filterType]: value }));
+  const handleFilterChange = (filterType: string, value: string | number) => {
+    setTempFilters(prev => ({ ...prev, [filterType]: value }));
+  };
+
+  const applyFilters = () => {
+    setActiveFilters({...tempFilters});
+    toast({
+      title: "فیلترها اعمال شدند",
+      description: "محصولات بر اساس فیلترهای انتخاب شده نمایش داده می‌شوند.",
+    });
+    setIsFilterOpen(false);
+  };
+
+  const resetFilters = () => {
+    setTempFilters({ category: 'all' });
+    setActiveFilters({ category: 'all' });
+    toast({
+      title: "فیلترها بازنشانی شدند",
+      description: "تمام فیلترها حذف شدند.",
+      variant: "destructive",
+    });
   };
 
   return (
@@ -148,9 +185,71 @@ const ShopPage = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              {/* Filter Toggle Button - Mobile */}
+              <div className="md:hidden flex justify-between items-center mb-4">
+                <Button 
+                  variant="outline"
+                  className="flex items-center gap-2"
+                  onClick={() => setIsFilterOpen(!isFilterOpen)}
+                >
+                  <Filter className="h-4 w-4" />
+                  فیلترها
+                  {Object.keys(activeFilters).length > 1 && (
+                    <span className="bg-[#78156F] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {Object.keys(activeFilters).length - 1}
+                    </span>
+                  )}
+                </Button>
+                
+                <div className="text-sm text-gray-500">
+                  {filteredProducts.length} محصول
+                </div>
+              </div>
+              
               {/* Filters Sidebar */}
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">فیلترها</h3>
+              <div className={`${isFilterOpen ? 'fixed inset-0 z-50 flex flex-col bg-white p-6' : 'hidden md:block'} bg-gray-50 p-4 rounded-lg`}>
+                {/* Mobile Filter Header */}
+                {isFilterOpen && (
+                  <div className="flex justify-between items-center border-b pb-3 mb-4">
+                    <h3 className="font-bold text-lg">فیلترها</h3>
+                    <Button 
+                      variant="ghost" 
+                      size="icon"
+                      onClick={() => setIsFilterOpen(false)}
+                    >
+                      <X className="h-5 w-5" />
+                    </Button>
+                  </div>
+                )}
+                
+                <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2 hidden md:block">فیلترها</h3>
+                
+                {/* Price Range Filter */}
+                <div className="mb-6">
+                  <h4 className="font-semibold mb-2">محدوده قیمت</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="text-xs text-gray-500 block mb-1">از</label>
+                      <input 
+                        type="number" 
+                        placeholder="حداقل قیمت" 
+                        value={tempFilters.minPrice || ''}
+                        onChange={(e) => handleFilterChange('minPrice', Number(e.target.value) || undefined)}
+                        className="w-full p-2 border rounded text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-500 block mb-1">تا</label>
+                      <input 
+                        type="number" 
+                        placeholder="حداکثر قیمت" 
+                        value={tempFilters.maxPrice || ''}
+                        onChange={(e) => handleFilterChange('maxPrice', Number(e.target.value) || undefined)}
+                        className="w-full p-2 border rounded text-sm"
+                      />
+                    </div>
+                  </div>
+                </div>
                 
                 {/* Album Type Filters - Show only when Albums tab is selected */}
                 {(activeTab === "albums" || activeTab === "all") && (
@@ -162,7 +261,7 @@ const ShopPage = () => {
                           type="radio" 
                           id="all-types" 
                           name="albumType" 
-                          checked={!activeFilters.type} 
+                          checked={!tempFilters.type} 
                           onChange={() => handleFilterChange('type', '')}
                           className="ml-2"
                         />
@@ -173,7 +272,7 @@ const ShopPage = () => {
                           type="radio" 
                           id="digital" 
                           name="albumType" 
-                          checked={activeFilters.type === 'digital'} 
+                          checked={tempFilters.type === 'digital'} 
                           onChange={() => handleFilterChange('type', 'digital')}
                           className="ml-2"
                         />
@@ -184,7 +283,7 @@ const ShopPage = () => {
                           type="radio" 
                           id="framed" 
                           name="albumType" 
-                          checked={activeFilters.type === 'framed'} 
+                          checked={tempFilters.type === 'framed'} 
                           onChange={() => handleFilterChange('type', 'framed')}
                           className="ml-2"
                         />
@@ -204,7 +303,7 @@ const ShopPage = () => {
                           type="radio" 
                           id="all-occasions" 
                           name="occasion" 
-                          checked={!activeFilters.occasion} 
+                          checked={!tempFilters.occasion} 
                           onChange={() => handleFilterChange('occasion', '')}
                           className="ml-2"
                         />
@@ -215,7 +314,7 @@ const ShopPage = () => {
                           type="radio" 
                           id="wedding" 
                           name="occasion" 
-                          checked={activeFilters.occasion === 'wedding'} 
+                          checked={tempFilters.occasion === 'wedding'} 
                           onChange={() => handleFilterChange('occasion', 'wedding')}
                           className="ml-2"
                         />
@@ -226,7 +325,7 @@ const ShopPage = () => {
                           type="radio" 
                           id="children" 
                           name="occasion" 
-                          checked={activeFilters.occasion === 'children'} 
+                          checked={tempFilters.occasion === 'children'} 
                           onChange={() => handleFilterChange('occasion', 'children')}
                           className="ml-2"
                         />
@@ -237,7 +336,7 @@ const ShopPage = () => {
                           type="radio" 
                           id="family" 
                           name="occasion" 
-                          checked={activeFilters.occasion === 'family'} 
+                          checked={tempFilters.occasion === 'family'} 
                           onChange={() => handleFilterChange('occasion', 'family')}
                           className="ml-2"
                         />
@@ -248,7 +347,7 @@ const ShopPage = () => {
                           type="radio" 
                           id="graduation" 
                           name="occasion" 
-                          checked={activeFilters.occasion === 'graduation'} 
+                          checked={tempFilters.occasion === 'graduation'} 
                           onChange={() => handleFilterChange('occasion', 'graduation')}
                           className="ml-2"
                         />
@@ -268,7 +367,7 @@ const ShopPage = () => {
                           type="radio" 
                           id="all-colors" 
                           name="frameColor" 
-                          checked={!activeFilters.color} 
+                          checked={!tempFilters.color} 
                           onChange={() => handleFilterChange('color', '')}
                           className="ml-2"
                         />
@@ -279,7 +378,7 @@ const ShopPage = () => {
                           type="radio" 
                           id="white" 
                           name="frameColor" 
-                          checked={activeFilters.color === 'white'} 
+                          checked={tempFilters.color === 'white'} 
                           onChange={() => handleFilterChange('color', 'white')}
                           className="ml-2"
                         />
@@ -290,7 +389,7 @@ const ShopPage = () => {
                           type="radio" 
                           id="black" 
                           name="frameColor" 
-                          checked={activeFilters.color === 'black'} 
+                          checked={tempFilters.color === 'black'} 
                           onChange={() => handleFilterChange('color', 'black')}
                           className="ml-2"
                         />
@@ -301,7 +400,7 @@ const ShopPage = () => {
                           type="radio" 
                           id="natural" 
                           name="frameColor" 
-                          checked={activeFilters.color === 'natural'} 
+                          checked={tempFilters.color === 'natural'} 
                           onChange={() => handleFilterChange('color', 'natural')}
                           className="ml-2"
                         />
@@ -310,6 +409,24 @@ const ShopPage = () => {
                     </div>
                   </div>
                 )}
+                
+                {/* Filter Action Buttons */}
+                <div className="flex items-center space-x-2 space-x-reverse">
+                  <Button 
+                    onClick={applyFilters} 
+                    className="bg-[#78156F] hover:bg-[#651260] flex-1 gap-2"
+                  >
+                    <Save className="h-4 w-4" />
+                    اعمال فیلترها
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={resetFilters}
+                    className="flex-1"
+                  >
+                    حذف فیلترها
+                  </Button>
+                </div>
               </div>
               
               {/* Products Grid */}
