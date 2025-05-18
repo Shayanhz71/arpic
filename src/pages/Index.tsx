@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Header from '@/components/Header';
 import BeforeAfterSlider from '@/components/BeforeAfterSlider';
@@ -11,10 +10,8 @@ import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-
 const Index = () => {
-  return (
-    <div className="min-h-screen font-vazir">
+  return <div className="min-h-screen font-vazir">
       <Header />
       
       {/* Hero Section */}
@@ -31,7 +28,7 @@ const Index = () => {
               </p>
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
                 <Link to="/edit-request">
-                  <Button className="bg-[#4CAF50] hover:bg-[#388E3C] text-lg py-6 px-8 shadow-lg">
+                  <Button className="text-lg py-6 px-8 shadow-lg bg-rose-950 hover:bg-rose-800">
                     درخواست ادیت
                   </Button>
                 </Link>
@@ -44,11 +41,7 @@ const Index = () => {
             </div>
             
             <div className="lg:w-1/2 mt-10 lg:mt-0">
-              <BeforeAfterSlider
-                beforeImage="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1000"
-                afterImage="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1000&auto=format&fit=crop"
-                description="برای مشاهده تفاوت، اسلایدر را حرکت دهید"
-              />
+              <BeforeAfterSlider beforeImage="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1000" afterImage="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1000&auto=format&fit=crop" description="برای مشاهده تفاوت، اسلایدر را حرکت دهید" />
             </div>
           </div>
         </div>
@@ -64,8 +57,6 @@ const Index = () => {
       
       {/* Footer */}
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
