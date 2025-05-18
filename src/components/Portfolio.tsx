@@ -105,8 +105,8 @@ const Portfolio = () => {
                   ))}
                 </CarouselContent>
                 <div className="flex justify-center mt-8 gap-4">
-                  <CarouselPrevious className="relative static transform-none" />
-                  <CarouselNext className="relative static transform-none" />
+                  <CarouselPrevious className="relative static transform-none bg-[#78156F] text-white hover:bg-[#651260] hover:text-white" />
+                  <CarouselNext className="relative static transform-none bg-[#78156F] text-white hover:bg-[#651260] hover:text-white" />
                 </div>
               </Carousel>
             </TabsContent>
@@ -131,8 +131,8 @@ const Portfolio = () => {
                     ))}
                   </CarouselContent>
                   <div className="flex justify-center mt-8 gap-4">
-                    <CarouselPrevious className="relative static transform-none" />
-                    <CarouselNext className="relative static transform-none" />
+                    <CarouselPrevious className="relative static transform-none bg-[#78156F] text-white hover:bg-[#651260] hover:text-white" />
+                    <CarouselNext className="relative static transform-none bg-[#78156F] text-white hover:bg-[#651260] hover:text-white" />
                   </div>
                 </Carousel>
               </TabsContent>

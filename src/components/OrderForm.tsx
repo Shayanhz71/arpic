@@ -153,7 +153,7 @@ const OrderForm = () => {
                         type="file"
                         id="file-upload"
                         multiple
-                        accept="image/*"
+                        accept="image/*,.zip"
                         onChange={handleFileChange}
                         className="hidden"
                       />
@@ -167,9 +167,14 @@ const OrderForm = () => {
                           <div className="space-y-2">
                             <p className="text-xl font-medium text-gray-700">عکس‌های خود را اینجا بکشید و رها کنید</p>
                             <p className="text-sm text-gray-500">یا برای انتخاب فایل کلیک کنید</p>
-                            <p className="text-xs text-gray-500">فرمت‌های مجاز: JPG، PNG و TIFF (حداکثر ۲۰ مگابایت)</p>
+                            <p className="text-xs text-gray-500">فرمت‌های مجاز: JPG، PNG، TIFF و ZIP (حداکثر ۲۰ مگابایت)</p>
                           </div>
-                          <Button type="button" variant="outline" className="border-[#78156F] text-[#78156F] hover:bg-[#78156F] hover:text-white">
+                          <Button 
+                            type="button" 
+                            variant="outline" 
+                            className="border-[#78156F] text-[#78156F] hover:bg-[#78156F] hover:text-white"
+                            onClick={() => document.getElementById('file-upload')?.click()}
+                          >
                             انتخاب فایل
                           </Button>
                         </div>
