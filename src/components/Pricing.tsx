@@ -1,10 +1,8 @@
-
 import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-
 interface PricingItem {
   service: string;
   deliveryTime: string;
@@ -12,48 +10,39 @@ interface PricingItem {
   urgentPrice: string;
   urgentDelivery: string;
 }
-
 const Pricing = () => {
-  const pricingItems: PricingItem[] = [
-    {
-      service: "رتوش پرتره ساده",
-      deliveryTime: "۲ روز کاری",
-      basePrice: "۱۵۰,۰۰۰",
-      urgentPrice: "۲۵۰,۰۰۰",
-      urgentDelivery: "۱۲ ساعت"
-    },
-    {
-      service: "رتوش پرتره پیشرفته",
-      deliveryTime: "۳ روز کاری",
-      basePrice: "۲۵۰,۰۰۰",
-      urgentPrice: "۳۵۰,۰۰۰",
-      urgentDelivery: "۲۴ ساعت"
-    },
-    {
-      service: "ادیت عکس عروسی",
-      deliveryTime: "۴ روز کاری",
-      basePrice: "۳۰۰,۰۰۰",
-      urgentPrice: "۴۵۰,۰۰۰",
-      urgentDelivery: "۴۸ ساعت"
-    },
-    {
-      service: "طراحی آلبوم دیجیتال",
-      deliveryTime: "۷ روز کاری",
-      basePrice: "۱,۲۰۰,۰۰۰",
-      urgentPrice: "۱,۸۰۰,۰۰۰",
-      urgentDelivery: "۳ روز"
-    },
-    {
-      service: "رتوش عکس محصول",
-      deliveryTime: "۲ روز کاری",
-      basePrice: "۲۰۰,۰۰۰",
-      urgentPrice: "۳۲۰,۰۰۰",
-      urgentDelivery: "۲۴ ساعت"
-    }
-  ];
-
-  return (
-    <section id="pricing" className="py-20 bg-gradient-to-b from-gray-50 to-white">
+  const pricingItems: PricingItem[] = [{
+    service: "رتوش پرتره ساده",
+    deliveryTime: "۲ روز کاری",
+    basePrice: "۱۵۰,۰۰۰",
+    urgentPrice: "۲۵۰,۰۰۰",
+    urgentDelivery: "۱۲ ساعت"
+  }, {
+    service: "رتوش پرتره پیشرفته",
+    deliveryTime: "۳ روز کاری",
+    basePrice: "۲۵۰,۰۰۰",
+    urgentPrice: "۳۵۰,۰۰۰",
+    urgentDelivery: "۲۴ ساعت"
+  }, {
+    service: "ادیت عکس عروسی",
+    deliveryTime: "۴ روز کاری",
+    basePrice: "۳۰۰,۰۰۰",
+    urgentPrice: "۴۵۰,۰۰۰",
+    urgentDelivery: "۴۸ ساعت"
+  }, {
+    service: "طراحی آلبوم دیجیتال",
+    deliveryTime: "۷ روز کاری",
+    basePrice: "۱,۲۰۰,۰۰۰",
+    urgentPrice: "۱,۸۰۰,۰۰۰",
+    urgentDelivery: "۳ روز"
+  }, {
+    service: "رتوش عکس محصول",
+    deliveryTime: "۲ روز کاری",
+    basePrice: "۲۰۰,۰۰۰",
+    urgentPrice: "۳۲۰,۰۰۰",
+    urgentDelivery: "۲۴ ساعت"
+  }];
+  return <section id="pricing" className="py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <span className="inline-block py-1 px-3 rounded-full text-sm font-medium bg-purple-100 text-[#78156F] mb-3">تعرفه خدمات</span>
@@ -79,19 +68,15 @@ const Pricing = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {pricingItems.map((item, index) => (
-                      <TableRow 
-                        key={index}
-                        className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
-                      >
+                    {pricingItems.map((item, index) => <TableRow key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                         <TableCell className="font-medium">{item.service}</TableCell>
                         <TableCell>{item.deliveryTime}</TableCell>
                         <TableCell>{item.basePrice}</TableCell>
                         <TableCell>
-                          <span className="text-red-500 font-medium">{item.urgentPrice}</span>
+                          <span className="font-medium text-green-600">{item.urgentPrice}</span>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="outline" className="bg-red-100 text-red-700 border-red-200">
+                          <Badge variant="outline" className="text-green-700">
                             {item.urgentDelivery}
                           </Badge>
                         </TableCell>
@@ -100,8 +85,7 @@ const Pricing = () => {
                             سفارش
                           </Button>
                         </TableCell>
-                      </TableRow>
-                    ))}
+                      </TableRow>)}
                   </TableBody>
                 </Table>
               </div>
@@ -130,8 +114,6 @@ const Pricing = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Pricing;

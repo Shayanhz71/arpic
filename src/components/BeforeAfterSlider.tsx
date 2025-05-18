@@ -71,7 +71,7 @@ const BeforeAfterSlider = ({
         {/* Before image (full width) */}
         <div className="absolute top-0 right-0 w-full h-full">
           <img src={beforeImage} alt="قبل از ویرایش" className="w-full h-full object-cover" />
-          <span className="absolute top-4 right-4 bg-white text-gray-800 px-3 py-1 rounded-full text-sm font-medium shadow-md">
+          <span className="absolute top-4 right-4 bg-white text-gray-800 px-3 py-1 rounded-full text-sm font-medium shadow-md ">
             قبل
           </span>
         </div>
@@ -84,7 +84,7 @@ const BeforeAfterSlider = ({
           width: `${100 / (sliderPosition / 100)}%`,
           maxWidth: 'none'
         }} className="w-full h-full object-cover" />
-          <span className="absolute top-4 left-4 bg-#78156f-600 px-3 py-1 rounded-full text-sm font-medium shadow-md text-white">
+          <span className="absolute top-4 left-4 bg-purple-600 px-3 py-1 rounded-full text-sm font-medium shadow-md text-white">
             بعد
           </span>
         </div>
