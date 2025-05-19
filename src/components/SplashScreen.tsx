@@ -32,9 +32,13 @@ const SplashScreen = ({ onFinished }: { onFinished: () => void }) => {
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
-          className="text-7xl font-bold text-white mb-4"
+          className="mb-6"
         >
-          ARPIC
+          <img 
+            src="/lovable-uploads/486ef567-1053-4466-a561-0c4afdbad7a8.png" 
+            alt="ARPIC" 
+            className="h-36"
+          />
         </motion.div>
         <motion.div
           initial={{ scale: 0, opacity: 0 }}

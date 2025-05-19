@@ -88,7 +88,11 @@ const Portfolio = () => {
           <div className="p-6 bg-white rounded-xl shadow-md">
             <TabsContent value="all" className="mt-0">
               <Carousel 
-                opts={{ align: "start", loop: true }}
+                opts={{ 
+                  align: "start", 
+                  loop: true,
+                  dragFree: true // Allow manual dragging only when not interacting with the slider
+                }}
                 className="w-full"
               >
                 <CarouselContent className="-ml-2 md:-ml-4">
@@ -114,7 +118,11 @@ const Portfolio = () => {
             {['portrait', 'wedding', 'children', 'commercial'].map((category) => (
               <TabsContent key={category} value={category} className="mt-0">
                 <Carousel 
-                  opts={{ align: "start", loop: true }}
+                  opts={{ 
+                    align: "start", 
+                    loop: true,
+                    dragFree: true // Allow manual dragging only when not interacting with the slider
+                  }}
                   className="w-full"
                 >
                   <CarouselContent className="-ml-2 md:-ml-4">

@@ -62,10 +62,14 @@ const BeforeAfterSlider = ({
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
+    // Stop event propagation to prevent carousel movement
+    e.stopPropagation();
     setIsDragging(true);
   };
 
-  const handleTouchStart = () => {
+  const handleTouchStart = (e: React.TouchEvent) => {
+    // Stop event propagation to prevent carousel movement
+    e.stopPropagation();
     setIsDragging(true);
   };
 
@@ -131,7 +135,13 @@ const BeforeAfterSlider = ({
       {heading && <h2 className="text-3xl md:text-4xl font-bold mb-4">{heading}</h2>}
       {description && <p className="text-lg text-gray-600 mb-8 max-w-3xl text-center">{description}</p>}
       
-      <div ref={containerRef} className="relative w-full max-w-4xl h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden rounded-lg shadow-xl">
+      <div 
+        ref={containerRef} 
+        className="relative w-full max-w-4xl h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden rounded-lg shadow-xl"
+        // Prevent carousel swipe on the entire container
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+      >
         {/* تصویر قبل (عرض کامل) - پشت زمینه */}
         <div className="absolute top-0 right-0 w-full h-full">
           <img 
