@@ -1,5 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,12 +25,80 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "@/hooks/use-toast";
 
 const OrderForm = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("upload");
   const [files, setFiles] = useState<File[]>([]);
   const [isUrgent, setIsUrgent] = useState<boolean>(false);
   const [orderType, setOrderType] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [description, setDescription] = useState("");
+  const [imageLink, setImageLink] = useState("");
+  
+  useEffect(() => {
+    // بررسی وضعیت احراز هویت
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+        
+        // اگر کاربر لاگین شده باشد، اطلاعات پروفایل را دریافت می‌کنیم
+        if (session?.user) {
+          fetchUserProfile(session.user.id);
+        }
+      }
+    );
+
+    // بررسی وجود session موجود
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      
+      // اگر کاربر لاگین شده باشد، اطلاعات پروفایل را دریافت می‌کنیم
+      if (session?.user) {
+        fetchUserProfile(session.user.id);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // دریافت اطلاعات پروفایل کاربر
+  const fetchUserProfile = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('first_name, last_name, phone')
+        .eq('id', userId)
+        .single();
+      
+      if (error) {
+        throw error;
+      }
+      
+      if (data) {
+        setName(`${data.first_name || ''} ${data.last_name || ''}`.trim());
+        setPhone(data.phone || '');
+      }
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
+  
+  // پردازش رها کردن فایل (drag and drop)
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+  
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    
+    if (e.dataTransfer.files) {
+      const fileArray = Array.from(e.dataTransfer.files);
+      setFiles(prev => [...prev, ...fileArray]);
+    }
+  };
   
   // Handle file change
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,10 +114,22 @@ const OrderForm = () => {
   };
   
   // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (files.length === 0) {
+    // اگر کاربر وارد نشده باشد، به صفحه ورود/ثبت نام هدایت می‌شود
+    if (!user) {
+      toast({
+        title: "لطفاً وارد حساب کاربری خود شوید",
+        description: "برای ثبت سفارش ابتدا باید وارد حساب کاربری خود شوید.",
+        variant: "destructive",
+      });
+      navigate('/auth');
+      return;
+    }
+    
+    // بررسی اعتبارسنجی فرم آپلود
+    if (activeTab === "upload" && files.length === 0) {
       toast({
         title: "خطا در ارسال سفارش",
         description: "لطفاً حداقل یک تصویر بارگذاری کنید.",
@@ -56,28 +138,120 @@ const OrderForm = () => {
       return;
     }
     
-    // Simulate file upload with progress
-    setIsUploading(true);
-    const interval = setInterval(() => {
-      setUploadProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setIsUploading(false);
-          
-          // Show success message
-          toast({
-            title: "سفارش شما با موفقیت ثبت شد",
-            description: "کارشناسان ما به زودی با شما تماس خواهند گرفت.",
-          });
-          
-          // Reset form
-          setFiles([]);
-          setUploadProgress(0);
-          return 0;
-        }
-        return prev + 10;
+    // بررسی اعتبارسنجی فرم لینک
+    if (activeTab === "link" && !imageLink) {
+      toast({
+        title: "خطا در ارسال سفارش",
+        description: "لطفاً لینک تصاویر خود را وارد کنید.",
+        variant: "destructive",
       });
-    }, 300);
+      return;
+    }
+    
+    // بررسی انتخاب نوع خدمات
+    if (!orderType) {
+      toast({
+        title: "خطا در ارسال سفارش",
+        description: "لطفاً نوع خدمات مورد نیاز را انتخاب کنید.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    try {
+      setIsUploading(true);
+      
+      // ایجاد سفارش در دیتابیس
+      const { data: orderData, error: orderError } = await supabase
+        .from('orders')
+        .insert([
+          { 
+            user_id: user.id,
+            service_type: orderType,
+            description: description,
+            status: 'pending'
+          }
+        ])
+        .select();
+      
+      if (orderError) {
+        throw orderError;
+      }
+      
+      const orderId = orderData[0].id;
+      
+      // اگر فایل آپلود شده، فایل‌ها را ذخیره می‌کنیم
+      if (activeTab === "upload" && files.length > 0) {
+        // شبیه‌سازی پیشرفت آپلود
+        const interval = setInterval(() => {
+          setUploadProgress(prev => {
+            if (prev >= 95) {
+              clearInterval(interval);
+              return 95;
+            }
+            return prev + 5;
+          });
+        }, 100);
+        
+        // در یک پروژه واقعی، اینجا باید فایل‌ها را به استوریج آپلود کنید
+        // این کد فقط شبیه‌سازی است
+        
+        // برای هر فایل، یک رکورد در جدول order_files ایجاد می‌کنیم
+        for (const file of files) {
+          await supabase
+            .from('order_files')
+            .insert([
+              { 
+                order_id: orderId,
+                file_path: `uploads/${user.id}/${orderId}/${file.name}`,
+                file_name: file.name,
+                file_type: file.type
+              }
+            ]);
+        }
+        
+        // پیشرفت آپلود را به 100% تغییر می‌دهیم
+        setUploadProgress(100);
+      }
+      
+      // اگر از طریق لینک باشد، لینک را ذخیره می‌کنیم
+      if (activeTab === "link" && imageLink) {
+        await supabase
+          .from('order_files')
+          .insert([
+            { 
+              order_id: orderId,
+              file_path: imageLink,
+              file_name: 'external-link',
+              file_type: 'link'
+            }
+          ]);
+      }
+      
+      // نمایش پیام موفقیت
+      toast({
+        title: "سفارش شما با موفقیت ثبت شد",
+        description: "کارشناسان ما به زودی سفارش شما را بررسی و با شما تماس خواهند گرفت.",
+      });
+      
+      // ریست فرم
+      setFiles([]);
+      setUploadProgress(0);
+      setIsUploading(false);
+      setOrderType("");
+      setDescription("");
+      setImageLink("");
+      setIsUrgent(false);
+      
+    } catch (error: any) {
+      console.error("Error submitting order:", error);
+      toast({
+        title: "خطا در ثبت سفارش",
+        description: error.message || "خطایی در ثبت سفارش رخ داد. لطفاً دوباره تلاش کنید.",
+        variant: "destructive",
+      });
+      setIsUploading(false);
+    }
   };
   
   return (
@@ -129,11 +303,22 @@ const OrderForm = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <Label htmlFor="name" className="mb-2 block">نام و نام خانوادگی</Label>
-                      <Input id="name" placeholder="نام خود را وارد کنید" />
+                      <Input 
+                        id="name" 
+                        placeholder="نام خود را وارد کنید" 
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
                     </div>
                     <div>
                       <Label htmlFor="phone" className="mb-2 block">شماره تماس</Label>
-                      <Input id="phone" placeholder="شماره تماس خود را وارد کنید" type="tel" />
+                      <Input 
+                        id="phone" 
+                        placeholder="شماره تماس خود را وارد کنید" 
+                        type="tel" 
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                      />
                     </div>
                   </div>
                   
@@ -143,12 +328,18 @@ const OrderForm = () => {
                       id="description" 
                       placeholder="توضیحات لازم برای ویرایش تصاویر را وارد کنید" 
                       className="min-h-[100px]"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
                     />
                   </div>
                   
                   <div>
                     <Label className="mb-2 block">آپلود تصاویر</Label>
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                    <div 
+                      className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center"
+                      onDragOver={handleDragOver}
+                      onDrop={handleDrop}
+                    >
                       <input
                         type="file"
                         id="file-upload"
@@ -236,13 +427,40 @@ const OrderForm = () => {
                     <Label htmlFor="urgent-mode">سفارش فوری (با هزینه بیشتر)</Label>
                   </div>
                   
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-[#78156F] hover:bg-[#651260]"
-                    disabled={isUploading}
-                  >
-                    ثبت سفارش
-                  </Button>
+                  {!user ? (
+                    <div className="space-y-4">
+                      <p className="text-center text-gray-600">
+                        برای ثبت سفارش، لطفاً ابتدا وارد حساب کاربری خود شوید.
+                      </p>
+                      <div className="flex flex-col sm:flex-row justify-center gap-4">
+                        <Link to="/auth" className="flex-1">
+                          <Button 
+                            type="button" 
+                            className="w-full bg-[#78156F] hover:bg-[#651260]"
+                          >
+                            ورود به حساب کاربری
+                          </Button>
+                        </Link>
+                        <Link to="/auth" className="flex-1">
+                          <Button 
+                            type="button" 
+                            variant="outline"
+                            className="w-full border-[#78156F] text-[#78156F] hover:bg-[#78156F] hover:text-white"
+                          >
+                            ثبت نام
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  ) : (
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-[#78156F] hover:bg-[#651260]"
+                      disabled={isUploading}
+                    >
+                      ثبت سفارش
+                    </Button>
+                  )}
                 </form>
               </TabsContent>
               
@@ -250,7 +468,7 @@ const OrderForm = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <Label htmlFor="service-type-link" className="mb-2 block">نوع خدمات مورد نیاز</Label>
-                    <Select>
+                    <Select value={orderType} onValueChange={setOrderType}>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="انتخاب کنید" />
                       </SelectTrigger>
@@ -269,17 +487,33 @@ const OrderForm = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <Label htmlFor="name-link" className="mb-2 block">نام و نام خانوادگی</Label>
-                      <Input id="name-link" placeholder="نام خود را وارد کنید" />
+                      <Input 
+                        id="name-link" 
+                        placeholder="نام خود را وارد کنید" 
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
                     </div>
                     <div>
                       <Label htmlFor="phone-link" className="mb-2 block">شماره تماس</Label>
-                      <Input id="phone-link" placeholder="شماره تماس خود را وارد کنید" type="tel" />
+                      <Input 
+                        id="phone-link" 
+                        placeholder="شماره تماس خود را وارد کنید" 
+                        type="tel" 
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                      />
                     </div>
                   </div>
                   
                   <div>
                     <Label htmlFor="image-link" className="mb-2 block">لینک تصاویر</Label>
-                    <Input id="image-link" placeholder="لینک Google Drive یا Dropbox خود را وارد کنید" />
+                    <Input 
+                      id="image-link" 
+                      placeholder="لینک Google Drive یا Dropbox خود را وارد کنید" 
+                      value={imageLink}
+                      onChange={(e) => setImageLink(e.target.value)}
+                    />
                     <p className="text-xs text-gray-500 mt-1">
                       می‌توانید لینک Google Drive، Dropbox یا هر سرویس اشتراک‌گذاری دیگری را وارد کنید.
                     </p>
@@ -291,17 +525,54 @@ const OrderForm = () => {
                       id="description-link" 
                       placeholder="توضیحات لازم برای ویرایش تصاویر را وارد کنید" 
                       className="min-h-[100px]"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
                     />
                   </div>
                   
                   <div className="flex items-center space-x-2 space-x-reverse">
-                    <Switch id="urgent-mode-link" />
+                    <Switch 
+                      id="urgent-mode-link" 
+                      checked={isUrgent}
+                      onCheckedChange={setIsUrgent}
+                    />
                     <Label htmlFor="urgent-mode-link">سفارش فوری (با هزینه بیشتر)</Label>
                   </div>
                   
-                  <Button type="submit" className="w-full bg-[#78156F] hover:bg-[#651260]">
-                    ثبت سفارش
-                  </Button>
+                  {!user ? (
+                    <div className="space-y-4">
+                      <p className="text-center text-gray-600">
+                        برای ثبت سفارش، لطفاً ابتدا وارد حساب کاربری خود شوید.
+                      </p>
+                      <div className="flex flex-col sm:flex-row justify-center gap-4">
+                        <Link to="/auth" className="flex-1">
+                          <Button 
+                            type="button" 
+                            className="w-full bg-[#78156F] hover:bg-[#651260]"
+                          >
+                            ورود به حساب کاربری
+                          </Button>
+                        </Link>
+                        <Link to="/auth" className="flex-1">
+                          <Button 
+                            type="button" 
+                            variant="outline"
+                            className="w-full border-[#78156F] text-[#78156F] hover:bg-[#78156F] hover:text-white"
+                          >
+                            ثبت نام
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  ) : (
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-[#78156F] hover:bg-[#651260]"
+                      disabled={isUploading}
+                    >
+                      ثبت سفارش
+                    </Button>
+                  )}
                 </form>
               </TabsContent>
             </Tabs>

@@ -16,7 +16,49 @@ const BeforeAfterSlider = ({
 }: BeforeAfterSliderProps) => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const beforeImageRef = useRef<HTMLImageElement>(null);
+  const afterImageRef = useRef<HTMLImageElement>(null);
+
+  // تابع برای اطمینان از بارگذاری تصاویر
+  useEffect(() => {
+    let beforeLoaded = false;
+    let afterLoaded = false;
+    
+    const checkImagesLoaded = () => {
+      if (beforeLoaded && afterLoaded) {
+        setImagesLoaded(true);
+      }
+    };
+    
+    const beforeImg = new Image();
+    beforeImg.onload = () => {
+      beforeLoaded = true;
+      checkImagesLoaded();
+    };
+    beforeImg.onerror = () => {
+      console.error("Error loading before image");
+    };
+    beforeImg.src = beforeImage;
+    
+    const afterImg = new Image();
+    afterImg.onload = () => {
+      afterLoaded = true;
+      checkImagesLoaded();
+    };
+    afterImg.onerror = () => {
+      console.error("Error loading after image");
+    };
+    afterImg.src = afterImage;
+    
+    return () => {
+      beforeImg.onload = null;
+      beforeImg.onerror = null;
+      afterImg.onload = null;
+      afterImg.onerror = null;
+    };
+  }, [beforeImage, afterImage]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -59,6 +101,7 @@ const BeforeAfterSlider = ({
     const newPosition = calculatePosition(touch.clientX);
     if (newPosition !== undefined) {
       setSliderPosition(newPosition);
+      e.preventDefault(); // جلوگیری از اسکرول صفحه هنگام کشیدن اسلایدر
     }
   };
 
@@ -89,42 +132,52 @@ const BeforeAfterSlider = ({
       {description && <p className="text-lg text-gray-600 mb-8 max-w-3xl text-center">{description}</p>}
       
       <div ref={containerRef} className="relative w-full max-w-4xl h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden rounded-lg shadow-xl">
-        {/* Before image (full width) */}
+        {/* تصویر قبل (عرض کامل) - پشت زمینه */}
         <div className="absolute top-0 right-0 w-full h-full">
-          <img src={beforeImage} alt="قبل از ویرایش" className="w-full h-full object-cover" />
+          <img 
+            ref={beforeImageRef}
+            src={beforeImage} 
+            alt="قبل از ویرایش" 
+            className="w-full h-full object-cover"
+            onLoad={() => beforeImageRef.current && console.log("Before image loaded")}
+          />
           <span className="absolute top-4 right-4 bg-white text-gray-800 px-3 py-1 rounded-full text-sm font-medium shadow-md">
             قبل
           </span>
         </div>
 
-        {/* After image (partial width based on slider) */}
+        {/* تصویر بعد (عرض جزئی بر اساس اسلایدر) - روی تصویر قبل */}
         <div 
           className="absolute top-0 right-0 h-full overflow-hidden" 
           style={{ width: `${sliderPosition}%` }}
         >
           <img 
+            ref={afterImageRef}
             src={afterImage} 
             alt="بعد از ویرایش" 
-            className="h-full object-cover absolute top-0 right-0"
+            className="h-full object-cover"
             style={{ 
-              width: `${100 / sliderPosition * 100}%`,
+              width: containerRef.current ? containerRef.current.offsetWidth + 'px' : '100%',
               maxWidth: 'none',
-              minWidth: '100%'
+              position: 'absolute',
+              top: 0,
+              right: 0
             }} 
+            onLoad={() => afterImageRef.current && console.log("After image loaded")}
           />
           <span className="absolute top-4 left-4 bg-[#78156F] text-white px-3 py-1 rounded-full text-sm font-medium shadow-md">
             بعد
           </span>
         </div>
 
-        {/* Slider control */}
+        {/* کنترل اسلایدر */}
         <div 
-          className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize" 
+          className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize z-10" 
           style={{ left: `calc(${sliderPosition}% - 0.5px)` }} 
           onMouseDown={handleMouseDown} 
           onTouchStart={handleTouchStart}
         >
-          {/* Slider handle */}
+          {/* دستگیره اسلایدر */}
           <div 
             className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center cursor-ew-resize" 
             onMouseDown={handleMouseDown} 
