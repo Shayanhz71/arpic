@@ -91,7 +91,7 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <img src="/lovable-uploads/486ef567-1053-4466-a561-0c4afdbad7a8.png" alt="Arpic" className="h-16 redius-27" />
+            <img src="/lovable-uploads/486ef567-1053-4466-a561-0c4afdbad7a8.png" alt="Arpic" className="h-16 redius-margin-27" />
           </Link>
 
           {/* Desktop Menu */}
