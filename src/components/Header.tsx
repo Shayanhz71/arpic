@@ -59,13 +59,18 @@ const Header = () => {
     { path: '/cooperation', label: 'همکاری با ما' },
   ];
 
+  // Store previous path before navigating to auth
+  const handleAuthClick = () => {
+    localStorage.setItem('previousPath', location.pathname);
+  };
+
   return (
     <header className="fixed top-0 right-0 left-0 bg-white shadow-md z-40">
       <div className="container mx-auto px-4 py-2">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="text-3xl font-bold text-[#78156F]">
-            آرپیک
+          <Link to="/" className="flex items-center">
+            <span className="text-3xl font-bold text-[#78156F]">ARPIC</span>
           </Link>
 
           {/* Desktop Menu */}
@@ -114,7 +119,7 @@ const Header = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link to="/auth">
+              <Link to="/auth" state={{ from: location.pathname }} onClick={handleAuthClick}>
                 <Button className="bg-[#78156F]">
                   ورود / ثبت نام
                 </Button>

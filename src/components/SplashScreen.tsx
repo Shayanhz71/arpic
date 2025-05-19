@@ -18,7 +18,7 @@ const SplashScreen = ({ onFinished }: { onFinished: () => void }) => {
 
   return (
     <motion.div 
-      className="fixed inset-0 bg-[#78156F] flex flex-col items-center justify-center z-50"
+      className="fixed inset-0 bg-black flex flex-col items-center justify-center z-50"
       animate={{ opacity: animationComplete ? 0 : 1 }}
       transition={{ duration: 0.5 }}
     >
@@ -34,7 +34,7 @@ const SplashScreen = ({ onFinished }: { onFinished: () => void }) => {
           transition={{ delay: 0.3, duration: 0.5 }}
           className="text-7xl font-bold text-white mb-4"
         >
-          آرپیک
+          ARPIC
         </motion.div>
         <motion.div
           initial={{ scale: 0, opacity: 0 }}

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -27,12 +27,15 @@ import {
   RadioGroupItem,
 } from "@/components/ui/radio-group";
 import { toast } from '@/hooks/use-toast';
+import ProvinceCity from '@/components/ProvinceCity';
 
 const Auth = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
   const [session, setSession] = useState<any>(null);
+  const [previousPath, setPreviousPath] = useState<string>("/");
   
   // فرم ورود
   const [loginEmail, setLoginEmail] = useState('');
@@ -44,18 +47,26 @@ const Auth = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
+  const [province, setProvince] = useState('');
   const [city, setCity] = useState('');
   const [gender, setGender] = useState('male');
   const [referrerCode, setReferrerCode] = useState('');
   const [discoveryMethod, setDiscoveryMethod] = useState('');
   
   useEffect(() => {
+    // خواندن مسیر قبلی از state یا localStorage
+    const referrer = location.state?.from || localStorage.getItem('previousPath') || '/';
+    if (referrer !== '/auth') {
+      setPreviousPath(referrer);
+      localStorage.setItem('previousPath', referrer);
+    }
+
     // بررسی وضعیت احراز هویت موجود
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
         if (session) {
-          navigate('/');
+          navigate(previousPath);
         }
       }
     );
@@ -64,12 +75,12 @@ const Auth = () => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       if (session) {
-        navigate('/');
+        navigate(previousPath);
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, location.state, previousPath]);
 
   // تابع ورود
   const handleLogin = async (e: React.FormEvent) => {
@@ -95,7 +106,7 @@ const Auth = () => {
         throw error;
       }
       
-      // در صورت موفقیت، کاربر توسط onAuthStateChange به صفحه اصلی هدایت می‌شود
+      // در صورت موفقیت به مسیر قبلی برمی‌گردد (توسط onAuthStateChange)
     } catch (error: any) {
       toast({
         title: "خطای ورود",
@@ -162,6 +173,8 @@ const Auth = () => {
           title: "ثبت نام موفقیت‌آمیز",
           description: "حساب کاربری شما با موفقیت ایجاد شد.",
         });
+
+        // در صورت موفقیت، به مسیر قبلی برمی‌گردد (بقیه کار توسط onAuthStateChange انجام می‌شود)
       }
       
     } catch (error: any) {
@@ -283,30 +296,25 @@ const Auth = () => {
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="phone">شماره تماس *</Label>
-                        <Input 
-                          id="phone" 
-                          type="tel"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                          placeholder="شماره تماس خود را وارد کنید"
-                          disabled={loading}
-                        />
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="city">شهر</Label>
-                        <Input 
-                          id="city" 
-                          value={city}
-                          onChange={(e) => setCity(e.target.value)}
-                          placeholder="شهر محل سکونت"
-                          disabled={loading}
-                        />
-                      </div>
+                    <div>
+                      <Label htmlFor="phone">شماره تماس *</Label>
+                      <Input 
+                        id="phone" 
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="شماره تماس خود را وارد کنید"
+                        disabled={loading}
+                      />
                     </div>
+                    
+                    <ProvinceCity 
+                      selectedProvince={province}
+                      selectedCity={city}
+                      onProvinceChange={setProvince}
+                      onCityChange={setCity}
+                      disabled={loading}
+                    />
                     
                     <div>
                       <Label>جنسیت</Label>
